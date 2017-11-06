@@ -22,7 +22,7 @@ if READ_DOT_ENV_FILE:
     # Operating System Environment variables have precedence over variables defined in the .env file,
     # that is to say variables from the .env files will only be used if not defined
     # as environment variables.
-    env_file = str(ROOT_DIR.path('.env'))
+    env_file = str(ROOT_DIR.path('env.example'))
     print('Loading : {}'.format(env_file))
     env.read_env(env_file)
     print('The .env file has been loaded. See base.py for more information')
@@ -48,6 +48,7 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
+    'rest_framework'  #REST Framework
 ]
 
 # Apps specific for this project go here.
@@ -100,7 +101,7 @@ EMAIL_BACKEND = env('DJANGO_EMAIL_BACKEND', default='django.core.mail.backends.s
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#admins
 ADMINS = [
-    ("""Taein""", 'kti91200@gmail.com'),
+    ("""Taein""", 'kti912002@gmail.com'),
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#managers
@@ -112,7 +113,7 @@ MANAGERS = ADMINS
 # Uses django-environ to accept uri format
 # See: https://django-environ.readthedocs.io/en/latest/#supported-types
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgres://nomadgram'),
+    'default': env.db('DATABASE_URL', default='postgres:///nomadgram')
 }
 DATABASES['default']['ATOMIC_REQUESTS'] = True
 
