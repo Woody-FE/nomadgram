@@ -1,45 +1,62 @@
-from django.core.urlresolvers import reverse
-from django.views.generic import DetailView, ListView, RedirectView, UpdateView
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from . import models, serializers
 
-from django.contrib.auth.mixins import LoginRequiredMixin
+class ExploreUsers(APIView):
 
-from .models import User
+    def get(self, request, format=None):
 
+        last_five = models.User.objects.all().order_by('-date_joined')[:5]
 
-class UserDetailView(LoginRequiredMixin, DetailView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
+        serializer = serializers.ExploreUserSerializer(last_five, many=True)
 
-
-class UserRedirectView(LoginRequiredMixin, RedirectView):
-    permanent = False
-
-    def get_redirect_url(self):
-        return reverse('users:detail',
-                       kwargs={'username': self.request.user.username})
+        return Response(data=serializer.data, status=status.HTTP_200_OK)
 
 
-class UserUpdateView(LoginRequiredMixin, UpdateView):
+class FollowUser(APIView):
 
-    fields = ['name', ]
+    def post(self, request, user_id, format=None):
 
-    # we already imported User in the view code above, remember?
-    model = User
+        user = request.user
 
-    # send the user back to their own page after a successful update
-    def get_success_url(self):
-        return reverse('users:detail',
-                       kwargs={'username': self.request.user.username})
+        try:
+            user_to_follow = models.User.objects.get(id=user_id)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
 
-    def get_object(self):
-        # Only get the User record for the user making the request
-        return User.objects.get(username=self.request.user.username)
+        user.following.add(user_to_follow)
 
+        user.save()
 
-class UserListView(LoginRequiredMixin, ListView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
+        return Response(status=status.HTTP_200_OK)
+
+class UnFollowUser(APIView):
+
+    def post(self, request, user_id, format=None):
+        
+        user = request.user
+        
+        try:
+            user_to_follow = models.User.objects.get(id=user_id)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        user.following.remove(user_to_follow)
+
+        user.save()
+
+        return Response(status=status.HTTP_200_OK)
+
+class UserProfile(APIView):
+
+    def get(self, request, username, format=None):
+
+        try:
+            found_user = models.User.objects.get(username=username)
+        except models.User.DoesNotExist:
+            return Response(status=status.HTTP_404_NOT_FOUND)
+
+        serializer = serializers.UserProfileSerializer(found_user)
+
+        return Response(data=serializer.data, status=status.HTTP_200_OK)    
