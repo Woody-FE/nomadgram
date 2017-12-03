@@ -36,9 +36,6 @@ class User(AbstractUser):
     def post_count(self):
         return self.images.all().count()
 
-    @property
-    def comment_count(self):
-        return self.comments.all().count()    
 
     @property
     def followers_count(self):

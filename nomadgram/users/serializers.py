@@ -5,7 +5,7 @@ from nomadgram.images import serializers as images_serializers
 
 class UserProfileSerializer(serializers.ModelSerializer):
     
-    images = images_serializers.UserProfileImageSerializer(many=True)
+    images = images_serializers.CountImageSerializer(many=True)
 
     class Meta:
         model = models.User
@@ -21,7 +21,7 @@ class UserProfileSerializer(serializers.ModelSerializer):
         )
         
 
-class ExploreUserSerializer(serializers.ModelSerializer):
+class ListUserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = models.User

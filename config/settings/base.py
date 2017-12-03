@@ -48,7 +48,8 @@ THIRD_PARTY_APPS = [
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
-    'rest_framework'  #REST Framework
+    'rest_framework',  #REST Framework
+    'taggit' #Tags for the photos
 ]
 
 # Apps specific for this project go here.
@@ -56,7 +57,8 @@ LOCAL_APPS = [
     # custom users app
     'nomadgram.users.apps.UsersConfig',
     # Your stuff: custom apps go here
-    'nomadgram.images.apps.ImagesConfig'    # Images app
+    'nomadgram.images.apps.ImagesConfig',    # Images app
+    'nomadgram.notifications.apps.NotificationsConfig'  #notifications app
     
 ]
 
@@ -272,3 +274,5 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
+
+TAGGIT_CASE_INSENSITIVE = True
