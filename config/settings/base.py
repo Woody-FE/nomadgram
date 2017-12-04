@@ -49,7 +49,11 @@ THIRD_PARTY_APPS = [
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'rest_framework',  #REST Framework
-    'taggit' #Tags for the photos
+    'rest_framework.authtoken',
+    'taggit', #Tags for the photos
+    'taggit_serializer', #tag serializer
+    'rest_auth',
+    'rest_auth.registration',
 ]
 
 # Apps specific for this project go here.
@@ -58,8 +62,7 @@ LOCAL_APPS = [
     'nomadgram.users.apps.UsersConfig',
     # Your stuff: custom apps go here
     'nomadgram.images.apps.ImagesConfig',    # Images app
-    'nomadgram.notifications.apps.NotificationsConfig'  #notifications app
-    
+    'nomadgram.notifications.apps.NotificationsConfig',  #notifications app
 ]
 
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
@@ -262,8 +265,6 @@ SOCIALACCOUNT_ADAPTER = 'nomadgram.users.adapters.SocialAccountAdapter'
 # Custom user app defaults
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
-LOGIN_REDIRECT_URL = 'users:redirect'
-LOGIN_URL = 'account_login'
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'
@@ -276,3 +277,16 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 
 TAGGIT_CASE_INSENSITIVE = True
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated',
+    ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    ),
+}
+
+REST_USE_JWT = True
+ACCOUNT_LOGOUT_ON_GET = True
