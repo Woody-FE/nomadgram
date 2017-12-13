@@ -11,5 +11,5 @@ class ReactAppView(View):
             with open(os.path.join(str(settings.ROOT_DIR), 'frontend', 'build', 'index.html')) as file:
                 return HttpResponse(file.read())
             
-            except:
+        except:
                 return HttpResponse(status=501)
