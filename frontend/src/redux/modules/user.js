@@ -7,7 +7,7 @@
 // initial state
 
 const initialState = {
-  isLoggedin: localStorage.getItem("jwt") || false
+  isLoggedIn: localStorage.getItem("jwt") || false
 };
 
 // reducer
