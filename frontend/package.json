@@ -37,6 +37,7 @@
     "react": "^16.2.0",
     "react-dev-utils": "^4.2.1",
     "react-dom": "^16.2.0",
+    "react-facebook-login": "^3.7.2",
     "react-ionicons": "^2.1.6",
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
@@ -59,7 +60,9 @@
     "extract": "i18n_extract"
   },
   "babel": {
-    "presets": ["react-app"]
+    "presets": [
+      "react-app"
+    ]
   },
   "eslintConfig": {
     "extends": "react-app"

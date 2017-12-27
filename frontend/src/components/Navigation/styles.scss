@@ -1,0 +1,50 @@
+.navigation {
+  width: 100%;
+  @include boxBorder(no);
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+  .inner {
+    width: 100%;
+    max-width: $max-page-width;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 77px;
+    padding: 25px 0;
+    margin: 0 auto;
+    .column {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 33%;
+      &:first-child {
+        justify-content: flex-start;
+      }
+      &:last-child {
+        justify-content: flex-end;
+      }
+      .logo {
+        max-width: 125px;
+      }
+      .search-input {
+        box-sizing: border-box;
+        background-color: #fafafa;
+        width: 215px;
+        padding: 5px;
+        border-radius: 3px;
+        border: solid 1px #dbdbdb;
+        font-size: $normal-font-size;
+        font-weight: 300;
+        &:focus {
+          outline: none;
+          background-color: white;
+        }
+      }
+      .nav-icon {
+        margin-left: 30px;
+        cursor: pointer;
+      }
+    }
+  }
+}

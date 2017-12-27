@@ -18,39 +18,42 @@ class Images(APIView):
         image_list = []
 
         for following_user in following_users:
-            
-            user_images = following_user.images.all()[:3]
+
+            user_images = following_user.images.all()[:2]
 
             for image in user_images:
-                
+
                 image_list.append(image)
 
-        my_images = user.images.all()[:5]
+        my_images = user.images.all()[:2]
 
         for image in my_images:
 
-            image_list.append(image)        
+            image_list.append(image)
 
-        sorted_list = sorted(image_list, key=lambda image:image.created_at, reverse=True)
+        sorted_list = sorted(
+            image_list, key=lambda image: image.created_at, reverse=True)
 
-        serializer = serializers.ImageSerializer(sorted_list, many=True)
+        serializer = serializers.ImageSerializer(
+            sorted_list, many=True, context={'request': request})
 
         return Response(serializer.data)
 
     def post(self, request, format=None):
-        
+
         user = request.user
-        
+
         serializer = serializers.InputImageSerializer(data=request.data)
 
+
         if serializer.is_valid():
-            
+
             serializer.save(creator=user)
 
             return Response(data=serializer.data, status=status.HTTP_201_CREATED)
 
         else:
-            
+            print(serializer.errors)
             return Response(data=serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class LikeImage(APIView):
@@ -230,7 +233,7 @@ class ImageDetail(APIView):
 
         if image is None:
             
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         serializer = serializers.InputImageSerializer(image, data=request.data, partial=True)
 
@@ -253,7 +256,7 @@ class ImageDetail(APIView):
 
         if image is None:
             
-            return Response(status=status.HTTP_401_UNAUTHORIZED)
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
         image.delete()
             
